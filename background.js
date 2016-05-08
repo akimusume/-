@@ -36,9 +36,12 @@ function writeMagnetFile(link) {
 
 chrome.browserAction.setBadgeText({text:""});
 chrome.storage.local.get("history",function (result) {
+	console.log(result);
+	console.log(result.history);
 	if(result.history)
 	{
 		linksHistory=result.history;
+		console.log(linksHistory);
 		for(i=0;i<linksHistory.length;i++)
 			writePopup(linksHistory[i]);
 	}
@@ -46,6 +49,7 @@ chrome.storage.local.get("history",function (result) {
 });
 
 chrome.storage.local.get("urlMatch",function (result) {
+	console.log(result);
 	if(result.urlMatch)
 	{
 		urlMatch=result.urlMatch.match;
@@ -55,11 +59,13 @@ chrome.storage.local.get("urlMatch",function (result) {
 });
 
 chrome.storage.local.get("popupContent",function (result) {
+    console.log(result);
     if(result.popupContent)
         popupContent=result.popupContent;
 });
 
 chrome.storage.local.get("magnetFile",function (result) {
+    console.log(result);
     if(result.magnetFile)
         magnetFile=result.magnetFile;
 });
@@ -69,12 +75,16 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         sendResponse("替换并传递成功");
         i=linksHistory.length;
         linksHistory[i] = message;
+        console.log(linksHistory);
+        console.log(linksHistory[i]);
         writePopup(linksHistory[i]);
         writeMagnetFile(linksHistory[i]);
         i++;
         num += message.magnetLinks.length + message.panLinks.length - 2;
         chrome.browserAction.setBadgeText({ text: num.toString() });
         chrome.storage.local.set({ "history": linksHistory,"popupContent":popupContent,"magnetFile":magnetFile}, function () {
+            console.log(typeof (linksHistory));
+            console.log("存储成功");
         });
         console.log(popupContent);
     }
@@ -95,6 +105,11 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         chrome.storage.local.remove("history", function () {});
         chrome.storage.local.remove("popupContent", function () {});
         chrome.storage.local.remove("magnetFile", function () {});
+        chrome.storage.local.get("history", function (result) {
+            console.log(result);
+            test = result.history;
+            console.log(test);
+        });
     }
 
     if (message.order == "getUrlMatch") {
@@ -106,22 +121,31 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     }
 
     if (message.order == "saveOption") {
+        console.log(message);
         defaultMatch = message.defaultMatch;
+        console.log(message.urlMatch);
         urlMatch = [];
         urlUnMatch = [];
         for (j = 0; ; j++) {
             start = message.urlMatch.search("\n");
+            console.log(start);
             if (start == 0 || j > 100) break;
             urlMatch[j] = message.urlMatch.substr(0, start);
+            console.log(urlMatch[j]);
             message.urlMatch = message.urlMatch.substr(start + 1);
+            console.log(message.urlMatch);
         }
+        console.log(urlMatch);
         for (j = 0; ; j++) {
             start = message.urlUnMatch.search("\n");
             if (start == 0 || j > 100) break;
             urlUnMatch[j] = message.urlUnMatch.substr(0, start);
+            console.log(urlUnMatch[j]);
             message.urlUnMatch = message.urlUnMatch.substr(start + 1);
         }
         chrome.storage.local.set({ "urlMatch": { "match": urlMatch, "unMatch": urlUnMatch,"defaultMatch":defaultMatch } }, function () {
+            console.log(typeof (linksHistory));
+            console.log("存储成功");
         });
     }
     if (message.order == "saveMagnet") {    

@@ -1,7 +1,7 @@
 {
 	"name": "神秘代码收集器",
 	"manifest_version": 2,
-	"version": "0.9.1",
+	"version": "0.9",
 	"description": "检测页面上的磁力链接哈希值，给它加上头部并转为超链接，同时收集到插件里，还可以识别并收集百度网盘的代码。made by：牛排君",
 	"browser_action": 
 	{

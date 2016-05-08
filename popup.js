@@ -1,11 +1,13 @@
 ﻿var content=document.getElementById("content");
 chrome.runtime.sendMessage({order:"read"},function(response){
+	console.log(response);
 	content.innerHTML=response;
 });
 var date=new Date();
 document.getElementById("cleanHistory").onclick=function(){
 	content.innerHTML="";
 	chrome.runtime.sendMessage({order:"cleanhistory"},function(response){
+		console.log(response);
 	});
 };
 document.getElementById("saveHistory").onclick=function saveHistory() {
