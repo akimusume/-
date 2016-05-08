@@ -1,0 +1,27 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>popup</title>
+<link rel="stylesheet" type="text/css" href="extention.css" /> 
+</head>
+
+<body>
+<p>只要网页的url包含以下字符串的任意一条就<strong>开始识别</strong>，每行写一条</p>
+<textarea id="urlMatch"></textarea><br>
+<p>只要网页的url包含以下字符串的任意一条就<strong>不识别</strong>，每行写一条</p>
+<textarea id="urlUnMatch"></textarea><br>
+<table width="420" border="0" align="left">
+  <tbody>
+    <tr>
+      <td width="315" align="center" valign="middle">以上两类都不包含时是否识别：<input type="checkbox" name="checkbox" id="checkbox">
+      <label for="checkbox"></label></td>
+      <td width="105" align="center" valign="middle"><a href="popup.html">
+        <input type="button" value="保存设置" id="saveOption">
+      </a></td>
+    </tr>
+  </tbody>
+</table>
+<script src="option.js"></script>
+</body>
+</html>
